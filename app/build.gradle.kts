@@ -10,6 +10,10 @@ plugins {
 dependencies {
     // Project "app" depends on project "utils". (Project paths are separated with ":", so ":utils" refers to the top-level "utils" project.)
     implementation(project(":utils"))
+    implementation(project(":utils:renderdoc"))
+    implementation(libs.bundles.kotlinxEcosystem)
+    implementation(libs.bundles.ktx)
+    implementation(libs.kodein)
 }
 
 application {

@@ -1,4 +1,4 @@
-package com.ewoudje.manypapers
+package com.ewoudje.assembly
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
@@ -6,14 +6,15 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g3d.Environment
 import com.badlogic.gdx.graphics.g3d.ModelBatch
-import com.ewoudje.manypapers.state.computer.Computer
-import com.ewoudje.manypapers.state.computer.ComputerPosition
-import com.ewoudje.manypapers.state.computer.ComputerStorage
-import com.ewoudje.manypapers.state.computer.DefaultComputerCase
-import com.ewoudje.manypapers.state.table.TableObject
-import com.ewoudje.manypapers.visual.AssetCollection
-import com.ewoudje.manypapers.visual.Drawable
-import com.ewoudje.manypapers.visual.TableScreen
+import com.ewoudje.assembly.state.computer.Computer
+import com.ewoudje.assembly.state.shelves.ShelvePosition
+import com.ewoudje.assembly.state.computer.ComputerStorage
+import com.ewoudje.assembly.state.computer.DefaultComputerCase
+import com.ewoudje.assembly.state.table.TableObject
+import com.ewoudje.assembly.visual.AssetCollection
+import com.ewoudje.assembly.visual.Drawable
+import com.ewoudje.assembly.visual.GameScreen
+import com.ewoudje.assembly.visual.desk.DeskScene
 import com.ewoudje.renderdoc.RenderDoc
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -25,6 +26,8 @@ import ktx.log.logger
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.bind
+import org.kodein.di.bindConstant
+import org.kodein.di.bindInstance
 import org.kodein.di.instance
 import org.kodein.di.singleton
 
@@ -40,23 +43,21 @@ class Game(val done: () -> Unit = {}): KtxGame<KtxScreen>() {
         KtxAsync.initiate()
         KtxAsync.launch {
             val di = buildDI(deferredAssets.await())
-            addScreen(TableScreen(di))
-            setScreen<TableScreen>()
+            addScreen(GameScreen.forScene(di, DeskScene.module))
+            setScreen<GameScreen>()
             done()
         }
     }
 
     fun buildDI(collection: AssetCollection) =  DI {
-        import(Computer.module)
-        import(TableObject.module)
-        import(TableScreen.module)
-        import(Drawable.module)
+        bindConstant(tag = "width") { 384 }
+        bindConstant(tag = "height") { 216 }
+        bindConstant(tag = "scale") { 4 }
 
         bind<AssetStorage> { instance(assetStorage) }
-        bind<ModelBatch> { singleton { ModelBatch() } }
-        bind<Environment> { singleton { Environment() } }
+        bind<Batch> { singleton { SpriteBatch() } }
         bind<AssetCollection> { instance(collection) }
-    }.apply { TestState(this).init() }
+    }//.apply { TestState(this).init() }
 
     private var dedup = true
     override fun render() {
@@ -64,22 +65,14 @@ class Game(val done: () -> Unit = {}): KtxGame<KtxScreen>() {
             if (dedup) {
                 println("Rebuilding DI Tree")
                 val di = buildDI(deferredAssets.getCompleted())
-                removeScreen<TableScreen>()
-                addScreen(TableScreen(di))
-                setScreen<TableScreen>()
-                dedup = false
-                RenderDoc.triggerCapture()
-            }
-        } else if (Gdx.input.isKeyPressed(Input.Keys.P) && !RenderDoc.isReplayUIConnected()) {
-            if (dedup) {
-                RenderDoc.launchReplayUI(true)
+                removeScreen<GameScreen>()
+                addScreen(GameScreen.forScene(di, DeskScene.module))
+                setScreen<GameScreen>()
                 dedup = false
             }
-        } else  {
+        }  else  {
             dedup = true
         }
-
-
 
         super.render()
     }
@@ -94,23 +87,23 @@ class TestState(override val di: DI): DIAware {
 
     fun init() {
         computers.addComputer(object : Computer() {
-            override val position = ComputerPosition(ComputerPosition.X.LEFT_4, ComputerPosition.Y.BOTTOM)
+            override val position = ShelvePosition(ShelvePosition.X.LEFT_4, ShelvePosition.Y.BOTTOM)
             override val case = DefaultComputerCase
         })
         computers.addComputer(object : Computer() {
-            override val position = ComputerPosition(ComputerPosition.X.LEFT_2, ComputerPosition.Y.MIDDLE)
+            override val position = ShelvePosition(ShelvePosition.X.LEFT_2, ShelvePosition.Y.MIDDLE)
             override val case = DefaultComputerCase
         })
         computers.addComputer(object : Computer() {
-            override val position = ComputerPosition(ComputerPosition.X.LEFT_2, ComputerPosition.Y.BOTTOM)
+            override val position = ShelvePosition(ShelvePosition.X.LEFT_2, ShelvePosition.Y.BOTTOM)
             override val case = DefaultComputerCase
         })
         computers.addComputer(object : Computer() {
-            override val position = ComputerPosition(ComputerPosition.X.LEFT_3, ComputerPosition.Y.BOTTOM)
+            override val position = ShelvePosition(ShelvePosition.X.LEFT_3, ShelvePosition.Y.BOTTOM)
             override val case = DefaultComputerCase
         })
         computers.addComputer(object : Computer() {
-            override val position = ComputerPosition(ComputerPosition.X.LEFT_2, ComputerPosition.Y.TOP)
+            override val position = ShelvePosition(ShelvePosition.X.LEFT_2, ShelvePosition.Y.TOP)
             override val case = DefaultComputerCase
         })
     }

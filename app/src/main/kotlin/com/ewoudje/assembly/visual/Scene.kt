@@ -1,5 +1,7 @@
 ﻿package com.ewoudje.assembly.visual
 
-interface Drawable {
-    fun draw()
+interface Scene {
+
+    fun render()
+
 }

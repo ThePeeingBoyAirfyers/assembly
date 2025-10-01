@@ -1,4 +1,4 @@
-﻿package com.ewoudje.manypapers.state.table
+﻿package com.ewoudje.assembly.state.table
 
 import org.kodein.di.DI
 import org.kodein.di.bind

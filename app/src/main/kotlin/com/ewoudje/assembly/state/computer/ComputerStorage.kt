@@ -1,10 +1,12 @@
-﻿package com.ewoudje.manypapers.state.computer
+﻿package com.ewoudje.assembly.state.computer
+
+import com.ewoudje.assembly.state.shelves.ShelvePosition
 
 class ComputerStorage: Iterable<Computer> {
-    private val computers = mutableMapOf<ComputerPosition, Computer>()
+    private val computers = mutableMapOf<ShelvePosition, Computer>()
 
-    fun getComputer(position: ComputerPosition): Computer? = computers[position]
-    fun removeComputer(position: ComputerPosition): Computer? = computers.remove(position)
+    fun getComputer(position: ShelvePosition): Computer? = computers[position]
+    fun removeComputer(position: ShelvePosition): Computer? = computers.remove(position)
     fun addComputer(computer: Computer) {
         if (computers.containsKey(computer.position)) {
             throw IllegalArgumentException("A computer already exists at position ${computer.position}")

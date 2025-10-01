@@ -1,9 +1,5 @@
-﻿package com.ewoudje.manypapers.state.table
+﻿package com.ewoudje.assembly.state.table
 
-
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
 
 class TableObjectStorage : Iterable<TableObject> {
     val s = System.currentTimeMillis()

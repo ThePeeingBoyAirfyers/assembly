@@ -1,7 +1,6 @@
-﻿package com.ewoudje.manypapers.state.computer
+﻿package com.ewoudje.assembly.state.shelves
 
-
-data class ComputerPosition(
+data class ShelvePosition(
     val x: X,
     val y: Y
 ) {
@@ -35,4 +34,3 @@ data class ComputerPosition(
     val isLeft get() = x.isLeft
     val isRight get() = x.isRight
 }
-

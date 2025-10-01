@@ -1,4 +1,4 @@
-﻿package com.ewoudje.manypapers.state.computer
+﻿package com.ewoudje.assembly.state.computer
 
 sealed interface ComputerCase {
 

@@ -1,17 +1,17 @@
-
 buildscript {
   repositories {
     gradlePluginPortal()
   }
   dependencies {
-    classpath "io.github.fourlastor:construo:1.7.1"
+    classpath "io.github.fourlastor:construo:2.0.1"
     if(enableGraalNative == 'true') {
       classpath "org.graalvm.buildtools.native:org.graalvm.buildtools.native.gradle.plugin:0.9.28"
     }
   }
 }
+
 plugins {
-  id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
+  id "org.jetbrains.kotlin.jvm"
   id "application"
 }
 
@@ -30,15 +30,14 @@ if (JavaVersion.current().isJava9Compatible()) {
 kotlin.compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
 
 dependencies {
-  implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-  implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-  implementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-  implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-  implementation project(':core')
+  implementation(libs.bundles.gdx.lwjgl3)
+    implementation "com.badlogicgames.gdx:gdx-box2d-platform:1.13.1:natives-desktop"
+    implementation "com.badlogicgames.gdx:gdx-freetype-platform:1.13.1:natives-desktop"
+    implementation "com.badlogicgames.gdx:gdx-platform:1.13.1:natives-desktop"
+  implementation project(':app')
 
   if(enableGraalNative == 'true') {
-    implementation "io.github.berstanio:gdx-svmhelper-backend-lwjgl3:$graalHelperVersion"
-
+    implementation libs.gdx.backend.svmhelper
     }
 }
 
@@ -69,9 +68,9 @@ jar {
     attributes 'Main-Class': project.mainClassName
   }
 // this last step may help on some OSes that need extra instruction to make runnable JARs.
-  doLast {
+  //doLast {
     file(archiveFile).setExecutable(true, false)
-  }
+  //}
 }
 
 // Builds a JAR that only includes the files needed to run on macOS, not Windows or Linux.
@@ -122,7 +121,7 @@ construo {
     // human-readable name, used for example in the `.app` name for macOS
     humanName.set(appName)
     // Optional, defaults to project version property
-    version.set("$projectVersion")
+    version = projectVersion
 
     targets.configure {
       register("linuxX64", Target.Linux) {
@@ -150,7 +149,7 @@ construo {
         architecture.set(Target.Architecture.X86_64)
         // Optional: icon for Windows, as a PNG
         icon.set(project.file("icons/logo.png"))
-        jdkUrl.set("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.15%2B6/OpenJDK17U-jdk_x64_windows_hotspot_17.0.15_6.zip")
+        jdkUrl.set("https://download.oracle.com/graalvm/21/latest/graalvm-jdk-21_windows-x64_bin.zip")
         // Uncomment the next line to show a console when the game runs, to print messages.
         //useConsole.set(true)
       }
