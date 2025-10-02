@@ -13,7 +13,7 @@ import com.ewoudje.assembly.Game
 fun main() {
     // This handles macOS support and helps on Windows.
     if (StartupHelper.startNewJvmIfRequired())
-      return
+        return
 
     //RenderDoc.setCaptureOption(RenderDoc.CaptureOption.API_VALIDATION, true)
     //RenderDoc.setCaptureOption(RenderDoc.CaptureOption.VERIFY_BUFFER_WRITES, true)

@@ -1,4 +1,4 @@
-﻿package com.ewoudje.assembly.visual
+﻿package com.ewoudje.assembly.base
 
 import ktx.app.KtxScreen
 import org.kodein.di.DI

@@ -1,5 +1,0 @@
-﻿package com.ewoudje.assembly.visual
-
-interface Drawable {
-    fun draw()
-}

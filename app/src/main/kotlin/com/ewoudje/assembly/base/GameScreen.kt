@@ -1,4 +1,4 @@
-﻿package com.ewoudje.assembly.visual
+﻿package com.ewoudje.assembly.base
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.Batch
@@ -6,14 +6,14 @@ import com.badlogic.gdx.math.Matrix4
 import ktx.app.KtxScreen
 import ktx.app.clearScreen
 import ktx.graphics.use
-import org.kodein.di.DI
-import org.kodein.di.DIAware
-import org.kodein.di.bindSet
-import org.kodein.di.instance
+import ktx.log.logger
+import org.kodein.di.*
 
 class GameScreen(override val di: DI) : KtxScreen, DIAware {
+    val logger = logger<GameScreen>()
     val scene: Scene by instance()
     val batch: Batch by instance()
+    val interactionHandler: InteractionHandler by instance()
     val width: Int by instance(tag = "width")
     val height: Int by instance(tag = "height")
     val scale: Int by instance(tag = "scale")
@@ -26,8 +26,14 @@ class GameScreen(override val di: DI) : KtxScreen, DIAware {
         Gdx.gl.glViewport(0, 0, scale * width, scale * height)
         clearScreen(red = 0.7f, green = 0.7f, blue = 0.7f)
 
+        interactionHandler.update(delta)
+
         batch.use(projection) {
-            scene.render()
+            try {
+                scene.render()
+            } catch (e: Exception) {
+                logger.error(e) { "Failed to render scene" }
+            }
         }
     }
 
@@ -36,6 +42,7 @@ class GameScreen(override val di: DI) : KtxScreen, DIAware {
             GameScreen(DI {
                 extend(di)
 
+                bind<InteractionHandler> { singleton { InteractionHandler(di) } }
                 bindSet<Drawable>()
 
                 import(module)

@@ -13,8 +13,6 @@ import java.util.logging.Logger;
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public final class RenderDoc {
 
-    private RenderDoc() {}
-
     private static final RenderdocLibrary.RenderdocApi renderdoc;
     private static final Logger LOGGER = Logger.getLogger("RenderDoc");
 
@@ -56,11 +54,14 @@ public final class RenderDoc {
                 LOGGER.info(() -> "Connected to RenderDoc API v" + major.getValue() + "." + minor.getValue() + "." + patch.getValue());
             }
         } catch (UnsatisfiedLinkError e) {
-            LOGGER.warning( "Failed to link renderdoc");
+            LOGGER.warning("Failed to link renderdoc");
         }
 
 
         renderdoc = apiInstance;
+    }
+
+    private RenderDoc() {
     }
 
     /**
@@ -198,19 +199,19 @@ public final class RenderDoc {
     }
 
     /**
-     * Set the template used to generate new capture file names
-     */
-    public static void setCaptureFilePathTemplate(String template) {
-        if (renderdoc == null) return;
-        renderdoc.SetCaptureFilePathTemplate.call(template);
-    }
-
-    /**
      * @return the template used to generate new capture file names
      */
     public static String getCaptureFilePathTemplate() {
         if (renderdoc == null) return null;
         return renderdoc.GetCaptureFilePathTemplate.call();
+    }
+
+    /**
+     * Set the template used to generate new capture file names
+     */
+    public static void setCaptureFilePathTemplate(String template) {
+        if (renderdoc == null) return;
+        renderdoc.SetCaptureFilePathTemplate.call(template);
     }
 
     /**
@@ -320,6 +321,22 @@ public final class RenderDoc {
         renderdoc.SetCaptureFileComments.call(capture.path, comments);
     }
 
+    public enum OverlayOption {
+        ENABLED(0x1),
+        FRAME_RATE(0x2),
+        FRAME_NUMBER(0x4),
+        CAPTURE_LIST(0x8),
+        DEFAULT(ENABLED.mask | FRAME_RATE.mask | FRAME_NUMBER.mask | CAPTURE_LIST.mask),
+        ALL(~0),
+        NONE(0);
+
+        public final int mask;
+
+        OverlayOption(int mask) {
+            this.mask = mask;
+        }
+    }
+
     public static final class CaptureOption<T> {
         public static final CaptureOption<Boolean> ALLOW_VSYNC = new CaptureOption<>(0, Boolean.class);
         public static final CaptureOption<Boolean> ALLOW_FULLSCREEN = new CaptureOption<>(1, Boolean.class);
@@ -346,21 +363,6 @@ public final class RenderDoc {
         }
     }
 
-    public enum OverlayOption {
-        ENABLED(0x1),
-        FRAME_RATE(0x2),
-        FRAME_NUMBER(0x4),
-        CAPTURE_LIST(0x8),
-        DEFAULT(ENABLED.mask | FRAME_RATE.mask | FRAME_NUMBER.mask | CAPTURE_LIST.mask),
-        ALL(~0),
-        NONE(0);
-
-        public final int mask;
-
-        OverlayOption(int mask) {
-            this.mask = mask;
-        }
+    public record Capture(String path, Instant timestamp) {
     }
-
-    public record Capture(String path, Instant timestamp) {}
 }

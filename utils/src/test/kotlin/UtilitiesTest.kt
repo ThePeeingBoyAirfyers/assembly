@@ -1,10 +1,8 @@
 package com.ewoudje.utils
 
+import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.encodeToString
-import com.ewoudje.utils.*
 
 internal class PrinterTest {
 

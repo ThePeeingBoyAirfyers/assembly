@@ -4,18 +4,8 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.g3d.Environment
-import com.badlogic.gdx.graphics.g3d.ModelBatch
-import com.ewoudje.assembly.state.computer.Computer
-import com.ewoudje.assembly.state.shelves.ShelvePosition
-import com.ewoudje.assembly.state.computer.ComputerStorage
-import com.ewoudje.assembly.state.computer.DefaultComputerCase
-import com.ewoudje.assembly.state.table.TableObject
-import com.ewoudje.assembly.visual.AssetCollection
-import com.ewoudje.assembly.visual.Drawable
-import com.ewoudje.assembly.visual.GameScreen
-import com.ewoudje.assembly.visual.desk.DeskScene
-import com.ewoudje.renderdoc.RenderDoc
+import com.ewoudje.assembly.base.GameScreen
+import com.ewoudje.assembly.scenes.desk.DeskScene
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import ktx.app.KtxGame
@@ -23,16 +13,10 @@ import ktx.app.KtxScreen
 import ktx.assets.async.AssetStorage
 import ktx.async.KtxAsync
 import ktx.log.logger
-import org.kodein.di.DI
-import org.kodein.di.DIAware
-import org.kodein.di.bind
-import org.kodein.di.bindConstant
-import org.kodein.di.bindInstance
-import org.kodein.di.instance
-import org.kodein.di.singleton
+import org.kodein.di.*
 
 
-class Game(val done: () -> Unit = {}): KtxGame<KtxScreen>() {
+class Game(val done: () -> Unit = {}) : KtxGame<KtxScreen>() {
     val assetStorage = AssetStorage()
     val deferredAssets by lazy { KtxAsync.async { AssetCollection.loadAsync(assetStorage) } }
 
@@ -49,7 +33,13 @@ class Game(val done: () -> Unit = {}): KtxGame<KtxScreen>() {
         }
     }
 
-    fun buildDI(collection: AssetCollection) =  DI {
+    override fun <Type : KtxScreen> setScreen(type: Class<Type>) {
+        super.setScreen(type)
+        if (GameScreen::class.java == type)
+            getScreen<GameScreen>().scene.init()
+    }
+
+    fun buildDI(collection: AssetCollection) = DI {
         bindConstant(tag = "width") { 384 }
         bindConstant(tag = "height") { 216 }
         bindConstant(tag = "scale") { 4 }
@@ -63,14 +53,14 @@ class Game(val done: () -> Unit = {}): KtxGame<KtxScreen>() {
     override fun render() {
         if (Gdx.input.isKeyPressed(Input.Keys.X) && deferredAssets.isCompleted) {
             if (dedup) {
-                println("Rebuilding DI Tree")
+                logger.info { "Rebuilding DI Tree" }
                 val di = buildDI(deferredAssets.getCompleted())
                 removeScreen<GameScreen>()
                 addScreen(GameScreen.forScene(di, DeskScene.module))
                 setScreen<GameScreen>()
                 dedup = false
             }
-        }  else  {
+        } else {
             dedup = true
         }
 
@@ -79,32 +69,5 @@ class Game(val done: () -> Unit = {}): KtxGame<KtxScreen>() {
 
     override fun dispose() {
         super.dispose()
-    }
-}
-
-class TestState(override val di: DI): DIAware {
-    val computers: ComputerStorage by instance()
-
-    fun init() {
-        computers.addComputer(object : Computer() {
-            override val position = ShelvePosition(ShelvePosition.X.LEFT_4, ShelvePosition.Y.BOTTOM)
-            override val case = DefaultComputerCase
-        })
-        computers.addComputer(object : Computer() {
-            override val position = ShelvePosition(ShelvePosition.X.LEFT_2, ShelvePosition.Y.MIDDLE)
-            override val case = DefaultComputerCase
-        })
-        computers.addComputer(object : Computer() {
-            override val position = ShelvePosition(ShelvePosition.X.LEFT_2, ShelvePosition.Y.BOTTOM)
-            override val case = DefaultComputerCase
-        })
-        computers.addComputer(object : Computer() {
-            override val position = ShelvePosition(ShelvePosition.X.LEFT_3, ShelvePosition.Y.BOTTOM)
-            override val case = DefaultComputerCase
-        })
-        computers.addComputer(object : Computer() {
-            override val position = ShelvePosition(ShelvePosition.X.LEFT_2, ShelvePosition.Y.TOP)
-            override val case = DefaultComputerCase
-        })
     }
 }

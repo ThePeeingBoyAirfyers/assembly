@@ -1,8 +1,8 @@
-﻿package com.ewoudje.assembly.visual.desk
+﻿package com.ewoudje.assembly.scenes.desk
 
 import com.badlogic.gdx.graphics.g2d.Batch
-import com.ewoudje.assembly.visual.AssetCollection
-import com.ewoudje.assembly.visual.Drawable
+import com.ewoudje.assembly.AssetCollection
+import com.ewoudje.assembly.base.Drawable
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.instance
@@ -12,6 +12,8 @@ class Cabinet(override val di: DI) : Drawable, DIAware {
     val batch: Batch by instance()
     val assets: AssetCollection by instance()
     val states by newInstance { arrayOf(false, false, false) }
+
+    override val zDepth: Int = 0
 
     override fun draw() {
         batch.draw(assets.cabinet, x.toFloat(), y.toFloat())

@@ -8,8 +8,8 @@ kotlinxDatetime = "0.6.2"
 kotlinxSerializationJSON = "1.8.1"
 kotlinxCoroutines = "1.10.2"
 ktx = "1.13.1-rc1"
-graalHelperVersion="2.0.1"
-gdxVersion="1.13.1"
+graalHelperVersion = "2.0.1"
+gdxVersion = "1.13.1"
 kodein = "7.26.1"
 jna = "5.17.0"
 
@@ -19,10 +19,10 @@ kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.r
 kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJSON" }
 kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 
-gdx-backend-lwjgl3 = { module = "com.badlogicgames.gdx:gdx-backend-lwjgl3", version.ref = "gdxVersion"}
+gdx-backend-lwjgl3 = { module = "com.badlogicgames.gdx:gdx-backend-lwjgl3", version.ref = "gdxVersion" }
 gdx-backend-svmhelper = { module = "io.github.berstanio:gdx-svmhelper-backend-lwjgl3", version.ref = "graalHelperVersion" }
-gdx-freetype-platform = { module = "com.badlogicgames.gdx:gdx-freetype-platform", version.ref = "gdxVersion"}
-gdx-platform = { module = "com.badlogicgames.gdx:gdx-platform", version.ref = "gdxVersion"}
+gdx-freetype-platform = { module = "com.badlogicgames.gdx:gdx-freetype-platform", version.ref = "gdxVersion" }
+gdx-platform = { module = "com.badlogicgames.gdx:gdx-platform", version.ref = "gdxVersion" }
 
 ktx-app = { group = "io.github.libktx", name = "ktx-app", version.ref = "ktx" }
 ktx-actors = { group = "io.github.libktx", name = "ktx-actors", version.ref = "ktx" }
@@ -33,16 +33,16 @@ ktx-freetype = { group = "io.github.libktx", name = "ktx-freetype", version.ref 
 ktx-async = { group = "io.github.libktx", name = "ktx-async", version.ref = "ktx" }
 ktx-graphics = { group = "io.github.libktx", name = "ktx-graphics", version.ref = "ktx" }
 ktx-log = { group = "io.github.libktx", name = "ktx-log", version.ref = "ktx" }
-ktx-collections =  { group = "io.github.libktx", name = "ktx-collections", version.ref = "ktx" }
+ktx-collections = { group = "io.github.libktx", name = "ktx-collections", version.ref = "ktx" }
 ktx-i18n = { group = "io.github.libktx", name = "ktx-i18n", version.ref = "ktx" }
 ktx-json = { group = "io.github.libktx", name = "ktx-json", version.ref = "ktx" }
 ktx-math = { group = "io.github.libktx", name = "ktx-math", version.ref = "ktx" }
 ktx-preferences = { group = "io.github.libktx", name = "ktx-preferences", version.ref = "ktx" }
 ktx-reflect = { group = "io.github.libktx", name = "ktx-reflect", version.ref = "ktx" }
 
-kodein = { module = "org.kodein.di:kodein-di", version.ref = "kodein"}
+kodein = { module = "org.kodein.di:kodein-di", version.ref = "kodein" }
 
-jna = { module = "net.java.dev.jna:jna", version.ref = "jna"}
+jna = { module = "net.java.dev.jna:jna", version.ref = "jna" }
 
 # Libraries can be bundled together for easier import
 [bundles]
