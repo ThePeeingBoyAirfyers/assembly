@@ -20,7 +20,11 @@ fun main() {
     //RenderDoc.enableOverlayOptions(RenderDoc.OverlayOption.ALL)
     Lwjgl3Application(Game {
         val g = Gdx.graphics as Lwjgl3Graphics
-        val m = g.monitors[1]
+
+        //println("monitor count: "+ Lwjgl3ApplicationConfiguration.getMonitors().size)
+        if (Lwjgl3ApplicationConfiguration.getMonitors().size >= 2) {
+            val m = g.monitors[1]
+        }
         //g.window.setPosition(m.virtualX, m.virtualY)
         //g.window.maximizeWindow()
         g.setResizable(false)
