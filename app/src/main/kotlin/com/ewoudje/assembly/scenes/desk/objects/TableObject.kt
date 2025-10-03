@@ -1,6 +1,6 @@
-﻿package com.ewoudje.assembly.scenes.desk
+﻿package com.ewoudje.assembly.scenes.desk.objects
 
-import com.ewoudje.assembly.scenes.desk.objects.LandlordReport
+import com.ewoudje.assembly.scenes.desk.objects.types.LandlordReport
 import org.kodein.di.*
 import org.kodein.di.bindings.ScopeRegistry
 import org.kodein.di.bindings.StandardScopeRegistry

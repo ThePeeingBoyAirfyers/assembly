@@ -1,4 +1,4 @@
-﻿package com.ewoudje.assembly.scenes.desk
+﻿package com.ewoudje.assembly.scenes.desk.objects
 
 import com.badlogic.gdx.graphics.Texture
 import com.ewoudje.assembly.AssetCollection

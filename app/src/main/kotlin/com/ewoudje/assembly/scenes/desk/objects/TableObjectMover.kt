@@ -1,4 +1,4 @@
-﻿package com.ewoudje.assembly.scenes.desk
+﻿package com.ewoudje.assembly.scenes.desk.objects
 
 import com.ewoudje.assembly.base.InteractionHandler
 import com.ewoudje.assembly.base.Movable
@@ -21,7 +21,6 @@ class TableObjectMover(
 
     override fun dragStart(rX: Float, rY: Float) {
         drawable?.zDepth = handler.stackZDepth()
-        println(drawable?.zDepth)
     }
 
     override fun drag(dX: Float, dY: Float) {

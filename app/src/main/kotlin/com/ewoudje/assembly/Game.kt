@@ -47,13 +47,13 @@ class Game(val done: () -> Unit = {}) : KtxGame<KtxScreen>() {
         bind<AssetStorage> { instance(assetStorage) }
         bind<Batch> { singleton { SpriteBatch() } }
         bind<AssetCollection> { instance(collection) }
-    }//.apply { TestState(this).init() }
+    }
 
     private var dedup = true
     override fun render() {
         if (Gdx.input.isKeyPressed(Input.Keys.X) && deferredAssets.isCompleted) {
             if (dedup) {
-                logger.info { "Rebuilding DI Tree" }
+                logger { "Rebuilding DI Tree" }
                 val di = buildDI(deferredAssets.getCompleted())
                 removeScreen<GameScreen>()
                 addScreen(GameScreen.forScene(di, DeskScene.module))
