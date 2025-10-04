@@ -12,6 +12,7 @@ class TableObjectMover(
     val size: TableObjectSize by instance()
     val drawable: TableObjectDrawable? by instanceOrNull()
     val handler: InteractionHandler by instance()
+    val boundary: TableObjectsBoundary by instance()
 
     override val x: Float get() = pos.x
     override val y: Float get() = pos.y
@@ -24,8 +25,8 @@ class TableObjectMover(
     }
 
     override fun drag(dX: Float, dY: Float) {
-        pos.x += dX
-        pos.y += dY
+        pos.x = boundary.itemX(pos.x + dX, width)
+        pos.y = boundary.itemY(pos.y + dY, height)
     }
 
     override fun dragStop() {}
