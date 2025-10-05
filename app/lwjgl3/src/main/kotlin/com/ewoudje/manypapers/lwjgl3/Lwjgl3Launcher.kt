@@ -23,16 +23,13 @@ fun main() {
 
         // launch on specific monitor (read from env)
         try {
-            //println("monitor count: "+ Lwjgl3ApplicationConfiguration.getMonitors().size)
             val monitor: Int = System.getenv("MONITOR")?.toIntOrNull()?: 0
-            g.monitors[monitor]
+            val m = g.monitors[monitor]
+            g.window.setPosition(m.virtualX, m.virtualY)
         } catch (e: Exception) {
             System.err.println("Monitor preference: ${e}\nDoes the monitor exist?")
-            g.monitors[0]
         }
 
-        //g.window.setPosition(m.virtualX, m.virtualY)
-        //g.window.maximizeWindow()
         g.setResizable(false)
         g.setWindowedMode(384 * 4, 216 * 4)
         g.window.setVisible(true)
