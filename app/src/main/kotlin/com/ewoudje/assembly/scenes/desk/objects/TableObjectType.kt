@@ -7,6 +7,14 @@ import org.kodein.di.*
 import org.kodein.di.bindings.Scope
 import org.kodein.di.bindings.ScopeRegistry
 
+/**
+ * Extend to define a new type of TableObject.
+ * Use [createModule] to define the dependencies of this type.
+ * Use [configureDrawable] and [configureSize] to define the basic properties of this type.
+ * Use [makeMovable] to make this type movable by the player.
+ *
+ * A good reference is the [com.ewoudje.assembly.scenes.desk.objects.types.LandlordReport] type.
+ */
 abstract class TableObjectType : Scope<TableObject> {
     override fun getRegistry(context: TableObject): ScopeRegistry = context.registry
     private val toInit = mutableSetOf<(DI, TableObject) -> Unit>()
