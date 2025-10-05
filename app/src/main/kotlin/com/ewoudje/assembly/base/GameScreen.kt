@@ -3,12 +3,8 @@
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.math.Matrix4
-import com.ewoudje.assembly.AssetRegistry
-import kotlinx.coroutines.launch
 import ktx.app.KtxScreen
 import ktx.app.clearScreen
-import ktx.assets.async.AssetStorage
-import ktx.async.KtxAsync
 import ktx.graphics.use
 import ktx.log.logger
 import org.kodein.di.*

@@ -11,7 +11,10 @@ import ktx.assets.assetDescriptor
  */
 interface AssetConsumer {
 
-    fun AssetRegistry.texture(name: String, params: TextureLoader.TextureParameter = TextureLoader.TextureParameter()): AssetDelegate<Texture> =
+    fun AssetRegistry.texture(
+        name: String,
+        params: TextureLoader.TextureParameter = TextureLoader.TextureParameter()
+    ): AssetDelegate<Texture> =
         asset(assetDescriptor<Texture>(name, params))
 
     fun <T> AssetRegistry.asset(descriptor: AssetDescriptor<T>): AssetDelegate<T> =

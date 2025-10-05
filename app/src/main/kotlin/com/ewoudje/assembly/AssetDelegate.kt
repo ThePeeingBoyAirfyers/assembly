@@ -1,7 +1,6 @@
 ﻿package com.ewoudje.assembly
 
 import com.badlogic.gdx.assets.AssetDescriptor
-import kotlinx.coroutines.future.asCompletableFuture
 import ktx.assets.async.AssetStorage
 import kotlin.reflect.KProperty
 
@@ -16,5 +15,6 @@ class AssetDelegate<T>(val descriptor: AssetDescriptor<T>) {
         asset = storage.loadAsync(descriptor).await()
     }
 
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): T = asset ?: throw IllegalStateException("Asset ${descriptor.fileName} not loaded yet")
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): T =
+        asset ?: throw IllegalStateException("Asset ${descriptor.fileName} not loaded yet")
 }

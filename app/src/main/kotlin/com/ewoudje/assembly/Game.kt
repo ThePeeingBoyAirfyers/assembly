@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.ewoudje.assembly.base.GameScreen
 import com.ewoudje.assembly.scenes.desk.DeskScene
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import ktx.app.KtxGame
 import ktx.app.KtxScreen

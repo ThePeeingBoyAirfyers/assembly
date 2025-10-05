@@ -1,12 +1,8 @@
 ﻿package com.ewoudje.assembly
 
-import com.badlogic.gdx.assets.AssetDescriptor
-import com.badlogic.gdx.assets.loaders.TextureLoader
-import com.badlogic.gdx.graphics.Texture
 import io.github.classgraph.ClassGraph
 import kotlinx.coroutines.async
 import kotlinx.coroutines.joinAll
-import ktx.assets.assetDescriptor
 import ktx.assets.async.AssetStorage
 import ktx.async.KtxAsync
 
