@@ -21,10 +21,16 @@ fun main() {
     Lwjgl3Application(Game {
         val g = Gdx.graphics as Lwjgl3Graphics
 
-        //println("monitor count: "+ Lwjgl3ApplicationConfiguration.getMonitors().size)
-        if (Lwjgl3ApplicationConfiguration.getMonitors().size >= 2) {
-            val m = g.monitors[1]
+        // launch on specific monitor (read from env)
+        try {
+            //println("monitor count: "+ Lwjgl3ApplicationConfiguration.getMonitors().size)
+            val monitor: Int = System.getenv("MONITOR")?.toIntOrNull()?: 0
+            g.monitors[monitor]
+        } catch (e: Exception) {
+            System.err.println("Monitor preference: ${e}\nDoes the monitor exist?")
+            g.monitors[0]
         }
+
         //g.window.setPosition(m.virtualX, m.virtualY)
         //g.window.maximizeWindow()
         g.setResizable(false)
