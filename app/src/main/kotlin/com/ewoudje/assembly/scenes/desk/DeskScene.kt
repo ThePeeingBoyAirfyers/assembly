@@ -2,9 +2,9 @@
 
 import com.ewoudje.assembly.base.Drawable
 import com.ewoudje.assembly.base.Scene
-import com.ewoudje.assembly.scenes.desk.objects.types.LandlordReport
 import com.ewoudje.assembly.scenes.desk.objects.TableObject
 import com.ewoudje.assembly.scenes.desk.objects.TableObjectType
+import com.ewoudje.assembly.scenes.desk.objects.types.LandlordReport
 import org.kodein.di.*
 
 class DeskScene(override val di: DI) : Scene, DIAware {
