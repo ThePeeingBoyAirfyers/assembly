@@ -1,7 +1,6 @@
 ﻿package com.ewoudje.assembly.scenes.desk.objects
 
 import com.badlogic.gdx.graphics.Texture
-import com.ewoudje.assembly.AssetCollection
 import com.ewoudje.assembly.base.Drawable
 import org.kodein.di.*
 import org.kodein.di.bindings.Scope
@@ -30,7 +29,7 @@ abstract class TableObjectType : Scope<TableObject> {
         createModule()
     }
 
-    protected fun DI.Builder.configureDrawable(asset: (AssetCollection) -> Texture) {
+    protected fun DI.Builder.configureDrawable(asset: () -> Texture) {
         bind<TableObjectDrawable> { myScope.singleton { TableObjectDrawable(di, context.diContext, asset) } }
         bind<Drawable> { provider { directDI.instance<TableObjectDrawable>() } }
     }
