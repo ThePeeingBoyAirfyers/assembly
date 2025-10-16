@@ -9,7 +9,7 @@ import java.util.*
 
 
 class InteractionHandler(override val di: DI) : DIAware {
-    private val movables = Collections.newSetFromMap(WeakHashMap<Movable, Boolean?>())
+    private val draggables = Collections.newSetFromMap(WeakHashMap<Draggable, Boolean?>())
 
     private val scale: Int by instance(tag = "scale")
     private val height: Int by instance(tag = "height")
@@ -19,7 +19,7 @@ class InteractionHandler(override val di: DI) : DIAware {
     private var lastX = 0
     private var lastY = 0
 
-    private var currentMovable: Movable? = null
+    private var currentDraggable: Draggable? = null
 
 
     fun update(delta: Float) {
@@ -39,14 +39,14 @@ class InteractionHandler(override val di: DI) : DIAware {
     }
 
     private fun handleStartLeftButton() {
-        for (movable in movables.sortedByDescending { it.zDepth }) {
-            if (x > movable.x && y > movable.y) {
-                val rX = x - movable.x
-                val rY = y - movable.y
+        for (draggable in draggables.sortedByDescending { it.zDepth }) {
+            if (x > draggable.x && y > draggable.y) {
+                val rX = x - draggable.x
+                val rY = y - draggable.y
 
-                if (rX < movable.width && rY < movable.height) {
-                    currentMovable = movable
-                    movable.dragStart(rX, rY)
+                if (rX < draggable.width && rY < draggable.height) {
+                    currentDraggable = draggable
+                    draggable.dragStart(rX, rY)
                     break
                 }
             }
@@ -54,19 +54,19 @@ class InteractionHandler(override val di: DI) : DIAware {
     }
 
     private fun handleContinuesLeftButton() {
-        currentMovable?.drag((x - lastX).toFloat(), (y - lastY).toFloat())
+        currentDraggable?.drag((x - lastX).toFloat(), (y - lastY).toFloat())
     }
 
     private fun handleStopLeftButton() {
-        if (currentMovable != null) {
-            currentMovable?.dragStop()
+        if (currentDraggable != null) {
+            currentDraggable?.dragStop()
 
-            currentMovable = null
+            currentDraggable = null
         }
     }
 
-    fun configureMovable(movable: Movable) {
-        movables.add(movable)
+    fun configureMovable(draggable: Draggable) {
+        draggables.add(draggable)
     }
 
     private var z = 1

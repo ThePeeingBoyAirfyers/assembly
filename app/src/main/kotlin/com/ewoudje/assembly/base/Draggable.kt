@@ -1,6 +1,6 @@
 ﻿package com.ewoudje.assembly.base
 
-interface Movable {
+interface Draggable {
     val x: Float
     val y: Float
     val width: Float

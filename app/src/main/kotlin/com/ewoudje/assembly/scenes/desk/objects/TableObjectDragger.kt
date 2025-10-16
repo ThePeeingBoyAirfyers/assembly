@@ -1,13 +1,13 @@
 ﻿package com.ewoudje.assembly.scenes.desk.objects
 
+import com.ewoudje.assembly.base.Draggable
 import com.ewoudje.assembly.base.InteractionHandler
-import com.ewoudje.assembly.base.Movable
 import org.kodein.di.*
 
-class TableObjectMover(
+class TableObjectDragger(
     override val di: DI,
     override val diContext: DIContext<TableObject>
-) : DIAware, Movable {
+) : DIAware, Draggable {
     val pos: TableObjectPosition by instance()
     val size: TableObjectSize by instance()
     val drawable: TableObjectDrawable? by instanceOrNull()

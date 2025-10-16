@@ -21,7 +21,7 @@ object AssetRegistry {
             .use { scanResult ->
                 scanResult.getClassesImplementing(AssetConsumer::class.qualifiedName)
                     .loadClasses()
-                    .map { it.kotlin.objectInstance as AssetConsumer }
+                    .mapNotNull { it.kotlin.objectInstance as? AssetConsumer }
                     .forEach { logger.debug { it::class.qualifiedName!! + " registered assets" } }
             }
 

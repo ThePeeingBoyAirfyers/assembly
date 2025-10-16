@@ -1,7 +1,8 @@
 ﻿package com.ewoudje.assembly.scenes.desk.objects
 
 import com.badlogic.gdx.graphics.Texture
-import com.ewoudje.assembly.base.Drawable
+import com.ewoudje.assembly.AssetConsumer
+import com.ewoudje.assembly.util.smartScope
 import org.kodein.di.*
 import org.kodein.di.bindings.Scope
 import org.kodein.di.bindings.ScopeRegistry
@@ -14,24 +15,22 @@ import org.kodein.di.bindings.ScopeRegistry
  *
  * A good reference is the [com.ewoudje.assembly.scenes.desk.objects.types.LandlordReport] type.
  */
-abstract class TableObjectType : Scope<TableObject> {
+abstract class TableObjectType : Scope<TableObject>, AssetConsumer {
     override fun getRegistry(context: TableObject): ScopeRegistry = context.registry
     private val toInit = mutableSetOf<(DI, TableObject) -> Unit>()
 
     protected val DI.Builder.myScope
         get() =
-            scoped(this@TableObjectType)
+            smartScope(this@TableObjectType)
 
     protected abstract fun DI.Builder.createModule()
     val module = DI.Module(name = this::class.simpleName ?: "Unknown") {
-        val scope = scoped(this@TableObjectType)
-        bind<TableObjectPosition> { scope.singleton { TableObjectPosition(0.0f, 0.0f) } }
+        bind<TableObjectPosition> { myScope.singleton { TableObjectPosition(0.0f, 0.0f) } }
         createModule()
     }
 
     protected fun DI.Builder.configureDrawable(asset: () -> Texture) {
         bind<TableObjectDrawable> { myScope.singleton { TableObjectDrawable(di, context.diContext, asset) } }
-        bind<Drawable> { provider { directDI.instance<TableObjectDrawable>() } }
     }
 
 
@@ -41,9 +40,9 @@ abstract class TableObjectType : Scope<TableObject> {
         }
 
     protected fun DI.Builder.makeMovable() =
-        bind<TableObjectMover> {
-            toInit.add { di, o -> di.on(o).direct.instance<TableObjectMover>() }
-            myScope.singleton { TableObjectMover(di, context.diContext) }
+        bind<TableObjectDragger> {
+            toInit.add { di, o -> di.on(o).direct.instance<TableObjectDragger>() }
+            myScope.singleton { TableObjectDragger(di, context.diContext) }
         }
 
     internal fun init(di: DI, o: TableObject) {

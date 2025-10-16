@@ -20,6 +20,7 @@ class Game(val done: () -> Unit = {}) : KtxGame<KtxScreen>() {
     val logger = logger<Game>()
 
     override fun create() {
+        Gdx.app.logLevel = com.badlogic.gdx.Application.LOG_DEBUG //TODO base this on a debug flag
         logger { "Starting" }
         KtxAsync.initiate()
         KtxAsync.launch {
