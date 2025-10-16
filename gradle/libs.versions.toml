@@ -12,6 +12,7 @@ graalHelperVersion = "2.0.1"
 gdxVersion = "1.13.1"
 kodein = "7.26.1"
 jna = "5.17.0"
+classgraph = "4.8.180"
 
 [libraries]
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -43,6 +44,8 @@ ktx-reflect = { group = "io.github.libktx", name = "ktx-reflect", version.ref = 
 kodein = { module = "org.kodein.di:kodein-di", version.ref = "kodein" }
 
 jna = { module = "net.java.dev.jna:jna", version.ref = "jna" }
+
+classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
 
 # Libraries can be bundled together for easier import
 [bundles]

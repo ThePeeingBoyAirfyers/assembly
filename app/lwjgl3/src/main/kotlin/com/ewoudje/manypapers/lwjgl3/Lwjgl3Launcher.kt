@@ -20,9 +20,16 @@ fun main() {
     //RenderDoc.enableOverlayOptions(RenderDoc.OverlayOption.ALL)
     Lwjgl3Application(Game {
         val g = Gdx.graphics as Lwjgl3Graphics
-        val m = g.monitors[1]
-        //g.window.setPosition(m.virtualX, m.virtualY)
-        //g.window.maximizeWindow()
+
+        // launch on specific monitor (read from env)
+        try {
+            val monitor: Int = System.getenv("MONITOR")?.toIntOrNull()?: 0
+            val m = g.monitors[monitor]
+            g.window.setPosition(m.virtualX, m.virtualY)
+        } catch (e: Exception) {
+            System.err.println("Monitor preference: ${e}\nDoes the monitor exist?")
+        }
+
         g.setResizable(false)
         g.setWindowedMode(384 * 4, 216 * 4)
         g.window.setVisible(true)
